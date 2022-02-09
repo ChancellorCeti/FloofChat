@@ -16,6 +16,42 @@
       max-height: 100vh;
       font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     }
+    .splash{
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100vh;
+      background:black;
+      z-index:200;
+      color:white;
+      text-align:center;
+      line-height:90vh;
+    }
+    .splash.display-none{
+      position:fixed;
+      opacity:0;
+      top:0;
+      left:0;
+      width:100%;
+      height:100vh;
+      background:black;
+      z-index: index -10;;
+      color:white;
+      text-align:center;
+      line-height:90vh;
+      transition:all 0.5s;
+    }
+    @keyframes fadeIn{
+      to{
+        opacity:1;
+
+      }
+    }
+    .fade-in{
+      opacity:1;
+      animation:fadeIn 1s ease-in forwards
+    }
 
     .members-count,
     .members-list,
@@ -58,6 +94,12 @@
   </style>
 </head>
 <body>
+  <div class="splash">
+    <h1 class="fade-in">FloofChat by Kairav Banerjee/Floofy Doggo<br>
+    
+    </h1>
+    
+  </div>
   <div class="members-count">-</div>
   <div class="members-list">-</div>
   <div class="messages"></div>
@@ -67,7 +109,8 @@
   </form>
   <div class="credit">
       <h5>Made by Kairav Banerjee, also known as Floofy Doggo.<br>
-          DM me on discord at Floofy Doggo#2244 or email me at kairavbanerjee@gmail.com for feature requests or anything related to this app.
+        DM me on discord at Floofy Doggo#2244 or email me at kairavbanerjee@gmail.com for feature requests or anything related to this app.
+
       </h5>
   </div>
   <script src="./script.js"></script>
