@@ -1,5 +1,22 @@
 
 const CLIENT_ID = 'keECa1lpVtgABa1F';
+const splash=document.querySelector('.splash');
+
+
+document.addEventListener('DOMContentLoaded',(e)=>{
+  setTimeout(()=>{
+    splash.classList.add('display-none');
+    
+  },2000);
+})
+splash.addEventListener('mousedown',
+(e)=>{
+  setTimeout(()=>{
+    splash.parentElement.removeChild(splash);
+    
+  },1);
+})
+ 
 
 const drone = new ScaleDrone(CLIENT_ID, {
   data: { // Will be sent out as clientData via events
