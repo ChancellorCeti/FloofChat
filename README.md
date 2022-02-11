@@ -1,3 +1,3 @@
 # FloofChat
 Chat application made with scaledrone.
-Might update with option to make your own name later.
+Don't have any feature ideas right now, feel free to DM me on discord with any ideas.
