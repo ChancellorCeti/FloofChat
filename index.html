@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YHR1841G1Q"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-YHR1841G1Q');
+</script>
     <title>FloofChat!</title>
   <script type='text/javascript' src='https://cdn.scaledrone.com/scaledrone.min.js'></script>
   <!--<script type='text/javascript' src='http://0.0.0.0:8080/scaledrone.js'></script>-->
@@ -45,14 +54,14 @@
     @keyframes fadeIn{
       to{
         opacity:1;
-
+ 
       }
     }
     .fade-in{
       opacity:1;
       animation:fadeIn 1s ease-in forwards
     }
-
+ 
     .members-count,
     .members-list,
     .messages {
@@ -60,24 +69,24 @@
       padding: 15px;
       margin-bottom: 15px;
     }
-
+ 
     .messages {
       flex-shrink: 1;
       overflow: auto;
     }
-
+ 
     .message {
       padding: 5px 0;
     }
     .message .member {
       display: inline-block;
     }
-
+ 
     .member {
       padding-right: 10px;
       position: relative;
     }
-
+ 
     .message-form {
       display: flex;
       flex-shrink: 0;
@@ -90,6 +99,27 @@
     }
     .message-form__button {
       margin: 10px;
+      background-color: aquamarine;
+      border-radius: 20px;
+    }
+    .submitbtn{
+      margin: 10px;
+      border-radius: 50px;
+      background-color: rgb(32, 89, 97);
+      width:100px;
+      height:40px;
+      box-shadow: 0 4px 5px 0 rgba(32, 89, 97, 0.596), 0 6px 5px 0 rgba(0,0,0,0.19);
+    }
+    .inputnamefield{
+      flex-grow: 0.1;
+      border: 1px solid #dfdfdf;
+      padding: 10px 15px;
+      font-size: 12px;
+      background-color: #8d8968;
+    }
+    .submitbtn:hover{
+      width:110px;
+      height:44px;
     }
   </style>
 </head>
@@ -100,6 +130,10 @@
     </h1>
     
   </div>
+  <div class="stuff">
+    <input class="inputnamefield" name="inputboxstuff" placeholder="Enter your name"/>
+    <input type="submit" class="submitbtn" value="Submit Name"></input>
+  </div>
   <div class="members-count">-</div>
   <div class="members-list">-</div>
   <div class="messages"></div>
@@ -108,9 +142,9 @@
     <input class="message-form__button" value="Send" type="submit"/>
   </form>
   <div class="credit">
-      <h5>Made by Kairav Banerjee, also known as Floofy Doggo.<br>
+      <h5>Made by Floofy Doggo.<br>
         DM me on discord at Floofy Doggo#2244 or email me at kairavbanerjee@gmail.com for feature requests or anything related to this app.
-
+ 
       </h5>
   </div>
   <script src="./script.js"></script>
