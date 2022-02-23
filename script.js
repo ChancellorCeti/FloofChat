@@ -9,13 +9,30 @@ const settingsbutton=document.querySelector('.settingsbutton');
 const settings=document.querySelector('.settings');
 const credit=document.querySelector('.credit')
 var darkmode;
+var notifselect;
 var isDarkMade;
+var notifsetting;
+var notificationsetting=false;
 var darkmodeselect;
 /*const settingsimg=document.querySelector('.settingsimg');*/
 
 const collapsesetting=document.querySelector('.collapsesettings');
 
+messagelist.addEventListener ("DOMNodeInserted", (e)=>{
+  var lastmsg=messagelist.lastElementChild;
+  var lastuser=lastmsg.firstElementChild.textContent.length;
+  var lastusercontent=lastmsg.firstElementChild.textContent;
+  console.log(lastmsg,lastuser);
+  if(notificationsetting==true){
+  const greeting = new Notification('New message on FloofChat!',{
+    body: lastusercontent+'      '+messagelist.lastElementChild.textContent.slice(lastuser),
+    icon: 'https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png'
+  });}
+  messagelist.scrollIntoView(lastmsg);
+});
 var isSettingPressed=false;
+//This is function for making dark mode button. I made it a function bc I might want to make more theme options later and want 
+//code to be reusable
 function addButton(val,color,color2){
   darkmode=document.createElement("button",value=val )
   darkmode.classList.add('darkmode')
@@ -27,7 +44,7 @@ function addButton(val,color,color2){
     console.log('this works')
     
     console.log('this still works')
-    
+    //This is the part that changes the color
     document.body.style.background = color;
     document.body.style.color= color2;
     msgforminput.style.background=color;
@@ -40,21 +57,22 @@ function addButton(val,color,color2){
     settingsbutton.style.background=color;
   })
 }
+function addButtonNotif(val){
+  notifsetting=document.createElement("button",value=val )
+  notifsetting.classList.add('notifclass')
+  settings.appendChild(notifsetting)
+  notifsetting.innerHTML="Enable notifications!"
+  notifselect=document.querySelector('.notifclass');
+  
+  notifselect.addEventListener('click',(e)=>{
+    console.log('this work')
+    notificationsetting=true;
+    console.log('this work');
+  })
+}
 var usermade;
 var drone;
 
-/*function createMenuItem(name) {
-  let inputname = document.createElement('input');
-  inputname.placeholder = name;
-  inputname.className='inputnamefield';
-  return inputname;
-}*/
-/*function createButton(btnname){
-  let btn = document.createElement('input');
-  btn.type = 'submit';
-  btn.className='submitbtn';
-  return btn;
-}*/
 
 const inputnamefield = document.querySelector('.inputnamefield');
 const button = document.querySelector('.submitbtn');
@@ -90,7 +108,7 @@ function tab_GUID() {
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
       s4() + '-' + s4() + s4() + s4();
 }
-
+//Closes connection and deletes most elements so user will not have many tabs. not foolproof but good enough
 function tab_Warning() {
     alert("Another tab is open! Please close this tab so you can return to your work. We do not allow users to have multiple tabs open because the API we are using has a limit of 20 concurrent users. ");
     if(usermade!==true){
@@ -107,21 +125,23 @@ function tab_Warning() {
   
     }
 }
-
+//Listen for click on settings button and makes dark mode button when clicked and disables settings button.
 settingsbutton.addEventListener('click',(e)=>{
   isSettingPressed=true;
   addButton("Dark Mode",'black','white')
+  addButtonNotif("Enable notifications");
   settingsbutton.classList.add('disable')
   /*settingsimg.classList.add('disable')*/
   document.querySelector('.settingsbutton').disabled = 'true';
   /*document.querySelector('.settingsimg').disabled = 'true';*/
 })
+//listens for click on collapse settings button and removes darkmode button when pressed and enables settings button again
 collapsesetting.addEventListener('click',(e)=>{
   darkmode.parentNode.removeChild(darkmode)
   document.querySelector('.settingsbutton').disabled = false;
   /*document.querySelector('.settingsimg').disabled = false;*/
 })
-
+//listens for press on submit name button and sets name to the user's name input in text box, and then makes scaledrone connection
 button.addEventListener('click', (e) => {
    setTimeout(() => {
        const yourname = inputnamefield.value
@@ -171,6 +191,7 @@ button.addEventListener('click', (e) => {
         room.on('data', (text, member) => {
           if (member) {
             addMessageToListDOM(text, member);
+            
           } else {
             // Message is from server
           }
@@ -184,7 +205,7 @@ button.addEventListener('click', (e) => {
       drone.on('error', error => {
         console.error(error);
       });
-      
+      //random name(not rlly using anymore but keeping it just in case)
       function getRandomName() {
         const adjs = ["autumn", "hidden", "bitter", "misty", "silent", "empty", "dry", "dark", "summer", "icy", "delicate", "quiet", "white", "cool", "spring", "winter", "patient", "twilight", "dawn", "crimson", "wispy", "weathered", "blue", "billowing", "broken", "cold", "damp", "falling", "frosty", "green", "long", "late", "lingering", "bold", "little", "morning", "muddy", "old", "red", "rough", "still", "small", "sparkling", "throbbing", "shy", "wandering", "withered", "wild", "black", "young", "holy", "solitary", "fragrant", "aged", "snowy", "proud", "floral", "restless", "divine", "polished", "ancient", "purple", "lively", "nameless"];
         const nouns = ["waterfall", "river", "breeze", "moon", "rain", "wind", "sea", "morning", "snow", "lake", "sunset", "pine", "shadow", "leaf", "dawn", "glitter", "forest", "hill", "cloud", "meadow", "sun", "glade", "bird", "brook", "butterfly", "bush", "dew", "dust", "field", "fire", "flower", "firefly", "feather", "grass", "haze", "mountain", "night", "pond", "darkness", "snowflake", "silence", "sound", "sky", "shape", "surf", "thunder", "violet", "water", "wildflower", "wave", "water", "resonance", "sun", "wood", "dream", "cherry", "tree", "fog", "frost", "voice", "paper", "frog", "smoke", "star"];
@@ -194,12 +215,12 @@ button.addEventListener('click', (e) => {
           nouns[Math.floor(Math.random() * nouns.length)]
         );
       }
-      
+      //random color
       function getRandomColor() {
         return '#' + Math.floor(Math.random() * 0xFFFFFF).toString(16);
       }
       
-      //------------- DOM STUFF
+      //-------------  More DOM Stuff
       
       const DOM = {
         membersCount: document.querySelector('.members-count'),
@@ -208,7 +229,7 @@ button.addEventListener('click', (e) => {
         input: document.querySelector('.message-form__input'),
         form: document.querySelector('.message-form'),
       };
-      
+      //this is just for sending messages 
       DOM.form.addEventListener('submit', sendMessage);
       
       function sendMessage() {
@@ -222,7 +243,7 @@ button.addEventListener('click', (e) => {
           message: value,
         });
       }
-      
+      //lists members
       function createMemberElement(member) {
         const { name, color } = member.clientData;
         const el = document.createElement('div');
@@ -239,7 +260,7 @@ button.addEventListener('click', (e) => {
           DOM.membersList.appendChild(createMemberElement(member))
         );
       }
-      
+      //makes messages 
       function createMessageElement(text, member) {
         const el = document.createElement('div');
         el.appendChild(createMemberElement(member));
@@ -252,6 +273,8 @@ button.addEventListener('click', (e) => {
         const el = DOM.messages;
         const wasTop = el.scrollTop === el.scrollHeight - el.clientHeight;
         el.appendChild(createMessageElement(text, member));
+        let permission = Notification.requestPermission();
+            
         if (wasTop) {
           el.scrollTop = el.scrollHeight - el.clientHeight;
         }
@@ -272,7 +295,7 @@ button.addEventListener('click', (e) => {
 
 
 
-
+//splash screen code
 document.addEventListener('DOMContentLoaded',(e)=>{
   setTimeout(()=>{
     splash.classList.add('display-none');
@@ -288,7 +311,3 @@ splash.addEventListener('mousedown',
     
   },1);
 })
- 
-
-
-
