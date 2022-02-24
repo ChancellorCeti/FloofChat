@@ -14,15 +14,15 @@ var isDarkMade;
 var notifsetting;
 var notificationsetting=false;
 var darkmodeselect;
+var encodedhours;
+var ampm;
 /*const settingsimg=document.querySelector('.settingsimg');*/
-
 const collapsesetting=document.querySelector('.collapsesettings');
-
 messagelist.addEventListener ("DOMNodeInserted", (e)=>{
   var lastmsg=messagelist.lastElementChild;
   var lastuser=lastmsg.firstElementChild.textContent.length;
   var lastusercontent=lastmsg.firstElementChild.textContent;
-  console.log(lastmsg,lastuser);
+  console.log(lastmsg,lastuser,lastusercontent);
   if(notificationsetting==true){
   const greeting = new Notification('New message on FloofChat!',{
     body: lastusercontent+'      '+messagelist.lastElementChild.textContent.slice(lastuser),
@@ -42,7 +42,6 @@ function addButton(val,color,color2){
   isDarkMade=true;
   darkmodeselect.addEventListener('click',(e)=>{
     console.log('this works')
-    
     console.log('this still works')
     //This is the part that changes the color
     document.body.style.background = color;
@@ -63,7 +62,6 @@ function addButtonNotif(val){
   settings.appendChild(notifsetting)
   notifsetting.innerHTML="Enable notifications!"
   notifselect=document.querySelector('.notifclass');
-  
   notifselect.addEventListener('click',(e)=>{
     console.log('this work')
     notificationsetting=true;
@@ -72,8 +70,6 @@ function addButtonNotif(val){
 }
 var usermade;
 var drone;
-
-
 const inputnamefield = document.querySelector('.inputnamefield');
 const button = document.querySelector('.submitbtn');
   // multi tab detection
@@ -83,22 +79,18 @@ const button = document.querySelector('.submitbtn');
         // get (set if not) tab GUID and store in tab session
         if (sessionStorage["tabGUID"] == null) sessionStorage["tabGUID"] = tab_GUID();
         var guid = sessionStorage["tabGUID"];
-
         // add eventlistener to local storage
         window.addEventListener("storage", storage_Handler, false);
-
         // set tab GUID in local storage
         localStorage["tabGUID"] = guid;
     }
 }
-
 function storage_Handler(e) {
     // if tabGUID does not match then more than one tab and GUID
     if (e.key == 'tabGUID') {
         if (e.oldValue != e.newValue) tab_Warning();
     }
 }
-
 function tab_GUID() {
     function s4() {
         return Math.floor((1 + Math.random()) * 0x10000)
@@ -115,14 +107,12 @@ function tab_Warning() {
     button.parentElement.removeChild(button)
     inputnamefield.parentElement.removeChild(inputnamefield)
     }
-
     msgformbutton.parentElement.removeChild(msgformbutton)
     msgforminput.parentElement.removeChild(msgforminput)
     messagelist.parentElement.removeChild(messagelist)
     memberlist.parentElement.removeChild(memberlist)
     if(usermade==true){
     drone.close();
-  
     }
 }
 //Listen for click on settings button and makes dark mode button when clicked and disables settings button.
@@ -146,7 +136,6 @@ button.addEventListener('click', (e) => {
    setTimeout(() => {
        const yourname = inputnamefield.value
        button.classList.add('display-none');
-       
        usermade=true;
        inputnamefield.parentElement.removeChild(inputnamefield);
        button.parentElement.removeChild(button);
@@ -157,13 +146,11 @@ button.addEventListener('click', (e) => {
         },
       });
       let members = [];
-
       drone.on('open', error => {
         if (error) {
           return console.error(error);
         }
         console.log('Successfully connected to Scaledrone');
-      
         const room = drone.subscribe('observable-room');
         room.on('open', error => {
           if (error) {
@@ -171,23 +158,19 @@ button.addEventListener('click', (e) => {
           }
           console.log('Successfully joined room');
         });
-      
         room.on('members', m => {
           members = m;
           updateMembersDOM();
         });
-      
         room.on('member_join', member => {
           members.push(member);
           updateMembersDOM();
         });
-      
         room.on('member_leave', ({id}) => {
           const index = members.findIndex(member => member.id === id);
           members.splice(index, 1);
           updateMembersDOM();
         });
-      
         room.on('data', (text, member) => {
           if (member) {
             addMessageToListDOM(text, member);
@@ -197,11 +180,9 @@ button.addEventListener('click', (e) => {
           }
         });
       });
-      
       drone.on('close', event => {
         console.log('Connection was closed', event);
       });
-      
       drone.on('error', error => {
         console.error(error);
       });
@@ -219,9 +200,7 @@ button.addEventListener('click', (e) => {
       function getRandomColor() {
         return '#' + Math.floor(Math.random() * 0xFFFFFF).toString(16);
       }
-      
       //-------------  More DOM Stuff
-      
       const DOM = {
         membersCount: document.querySelector('.members-count'),
         membersList: document.querySelector('.members-list'),
@@ -231,7 +210,6 @@ button.addEventListener('click', (e) => {
       };
       //this is just for sending messages 
       DOM.form.addEventListener('submit', sendMessage);
-      
       function sendMessage() {
         const value = DOM.input.value;
         if (value === '') {
@@ -252,7 +230,6 @@ button.addEventListener('click', (e) => {
         el.style.color = color;
         return el;
       }
-      
       function updateMembersDOM() {
         DOM.membersCount.innerText = `${members.length} users in room:`;
         DOM.membersList.innerHTML = '';
@@ -268,33 +245,35 @@ button.addEventListener('click', (e) => {
         el.className = 'message';
         return el;
       }
-      
       function addMessageToListDOM(text, member) {
         const el = DOM.messages;
         const wasTop = el.scrollTop === el.scrollHeight - el.clientHeight;
         el.appendChild(createMessageElement(text, member));
+        
         let permission = Notification.requestPermission();
-            
+        var today2 = new Date();
+        const para = document.createElement("p");
+        var hours=today2.getHours();
+        if(hours>12 || hours==12){
+          encodedhours=hours-12;
+          ampm="PM";
+        }else{
+          encodedhours=hours;
+          ampm="AM";
+        }
+var time2 = "Sent at "+encodedhours + ":" + today2.getMinutes()+" "+ampm;
+console.log(time2)
+var lastmsg2=messagelist.lastElementChild;
+  let textNode = document.createTextNode(time2); 
+  para.appendChild(textNode); 
+  lastmsg2.appendChild(para);
+  para.classList.add('timestamp');
         if (wasTop) {
           el.scrollTop = el.scrollHeight - el.clientHeight;
         }
       }
-
-
-
-
-
-
-
-
-
-
    }, 1);
 })
-
-
-
-
 //splash screen code
 document.addEventListener('DOMContentLoaded',(e)=>{
   setTimeout(()=>{
