@@ -128,6 +128,7 @@ settingsbutton.addEventListener('click',(e)=>{
 //listens for click on collapse settings button and removes darkmode button when pressed and enables settings button again
 collapsesetting.addEventListener('click',(e)=>{
   darkmode.parentNode.removeChild(darkmode)
+  notifclass.parentNode.removeChild(notifclass)
   document.querySelector('.settingsbutton').disabled = false;
   /*document.querySelector('.settingsimg').disabled = false;*/
 })
