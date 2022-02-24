@@ -50,6 +50,7 @@ function addButton(val,color,color2){
     msgforminput.style.color=color2;
     msgformbutton.style.background=color;
     msgformbutton.style.color=color2;
+    notifclass.style.color=color2;
     collapsesetting.style.background=color;
     collapsesetting.style.color=color2;
     settingsbutton.style.color=color2;
