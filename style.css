@@ -146,4 +146,7 @@ body {
 .settingsbutton:disable{
   cursor:not-allowed;
 }
-
+.timestamp{
+  font-size: 10px;
+  color:rgb(144, 140, 132);
+}
