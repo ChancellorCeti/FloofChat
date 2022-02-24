@@ -50,7 +50,7 @@ function addButton(val,color,color2){
     msgforminput.style.color=color2;
     msgformbutton.style.background=color;
     msgformbutton.style.color=color2;
-    notifclass.style.color=color2;
+    notifsetting.style.color=color2;
     collapsesetting.style.background=color;
     collapsesetting.style.color=color2;
     settingsbutton.style.color=color2;
@@ -129,7 +129,7 @@ settingsbutton.addEventListener('click',(e)=>{
 //listens for click on collapse settings button and removes darkmode button when pressed and enables settings button again
 collapsesetting.addEventListener('click',(e)=>{
   darkmode.parentNode.removeChild(darkmode)
-  notifclass.parentNode.removeChild(notifclass)
+  notifsetting.parentNode.removeChild(notifsetting)
   document.querySelector('.settingsbutton').disabled = false;
   /*document.querySelector('.settingsimg').disabled = false;*/
 })
